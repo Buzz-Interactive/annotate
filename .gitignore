@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# TypeScript build artefacts not under version control during local dev.
+# Note: annotate.js IS tracked because it's the distribution output that
+# jsDelivr serves from the git tag. Run `npm run build` before tagging.
+*.tsbuildinfo
+
+# Reviewer exports — don't commit accidental review captures
+*.annotate-export.json

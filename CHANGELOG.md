@@ -1,0 +1,31 @@
+# Changelog
+
+All notable changes to `annotate-js` will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.0.0] - 2026-05-13
+
+### Added
+
+- Initial public release.
+- TypeScript source (`src/annotate.ts`); strict-mode `tsc` build emits `annotate.js` at the repo root for direct `<script>` and CDN consumption.
+- Inline text-selection highlight with comment popover.
+- IndexedDB persistence (`annotate-js` database, `annotations` / `sessions` / `settings` stores).
+- Session model: archive a round of annotations, start a fresh round, restore prior rounds.
+- Section-heading awareness — each annotation captures its nearest `H1`–`H3`.
+- Text-context anchoring with `prefix` / `suffix` capture for stable re-anchoring.
+- Re-anchoring status flags: `fresh` / `moved` / `stale`.
+- JSON export of the active session for hand-off to AI agents.
+- JSON import to re-attach annotations to a revised document.
+- Sidebar view grouping annotations by section.
+- Toolbar with quick toggle, export, import, and session controls.
+- Zero-runtime-dependency distribution: single `annotate.js` (compiled) + `annotate.css` (hand-written).
+
+### Notes
+
+- Built originally to support reviewer-led revision of long-form regulated and discovery documents, with the structured export designed for LLM consumption.
+- All data is local-first; nothing is transmitted from the tool itself.
+- The compiled `annotate.js` is committed alongside the TS source so jsDelivr can serve it directly from the git tag without a build pipeline on the CDN side.

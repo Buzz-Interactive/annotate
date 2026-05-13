@@ -1,0 +1,49 @@
+{
+  "name": "annotate-js",
+  "version": "1.0.0",
+  "description": "Vanilla-JS annotation layer for static HTML, built for the AI-revision loop. Exports reviewer comments as structured JSON ready to hand to an agent.",
+  "main": "annotate.js",
+  "types": "src/annotate.ts",
+  "files": [
+    "annotate.js",
+    "annotate.css",
+    "src/annotate.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "watch": "tsc --watch",
+    "demo": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "annotation",
+    "highlight",
+    "review",
+    "ai",
+    "llm",
+    "claude",
+    "gpt",
+    "agent",
+    "feedback",
+    "static-site",
+    "vanilla-js",
+    "typescript",
+    "indexeddb",
+    "no-backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Buzz-Interactive/annotate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Buzz-Interactive/annotate/issues"
+  },
+  "homepage": "https://github.com/Buzz-Interactive/annotate#readme",
+  "license": "MIT",
+  "author": "Buzz Interactive",
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

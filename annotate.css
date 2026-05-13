@@ -1,0 +1,511 @@
+/*!
+ * annotate-js — vanilla-JS annotation layer for static HTML
+ * Styles for highlights, popover, toolbar, sidebar.
+ *
+ * @license MIT
+ * @version 1.0.0
+ * @see https://github.com/Buzz-Interactive/annotate
+ */
+
+/* Highlighted text */
+.annotate-highlight {
+  background-color: rgba(255, 220, 80, 0.35);
+  border-bottom: 2px solid rgba(255, 180, 0, 0.5);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.15s;
+}
+.annotate-highlight:hover {
+  background-color: rgba(255, 200, 50, 0.55);
+}
+
+/* Moved highlight — text found but surrounding context changed */
+.annotate-highlight--moved {
+  background-color: rgba(245, 166, 35, 0.2);
+  border-bottom: 2px solid rgba(245, 166, 35, 0.6);
+}
+.annotate-highlight--moved:hover {
+  background-color: rgba(245, 166, 35, 0.35);
+}
+
+/* Stale highlight — text no longer found as-is */
+.annotate-highlight--stale {
+  background-color: rgba(208, 2, 27, 0.08);
+  border-bottom: 2px dashed rgba(208, 2, 27, 0.4);
+}
+.annotate-highlight--stale:hover {
+  background-color: rgba(208, 2, 27, 0.15);
+}
+
+/* Stale badges in sidebar */
+.annotate-stale-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-style: normal;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.annotate-stale-badge.moved {
+  background: #fef3e0;
+  color: #c87f00;
+}
+.annotate-stale-badge.stale {
+  background: #fde8e8;
+  color: #d0021b;
+}
+
+/* Stale sidebar items */
+.annotate-sidebar-item--stale {
+  background: #fef6f6;
+  border-left: 3px solid #d0021b;
+}
+.annotate-sidebar-item--moved {
+  background: #fffcf5;
+  border-left: 3px solid #f5a623;
+}
+
+/* Selection popover — appears when user selects text */
+.annotate-popover {
+  position: absolute;
+  z-index: 2000;
+  background: #2c2f31;
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 0.85rem;
+  overflow: hidden;
+  min-width: 280px;
+  max-width: 380px;
+}
+.annotate-popover-prompt {
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.1s;
+}
+.annotate-popover-prompt:hover {
+  background: #3a3d40;
+}
+.annotate-popover-form {
+  padding: 12px 14px;
+}
+.annotate-popover-form textarea {
+  width: 100%;
+  min-height: 70px;
+  background: #3a3d40;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 0.85rem;
+  padding: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.annotate-popover-form textarea:focus {
+  outline: none;
+  border-color: #8CC63F;
+}
+.annotate-popover-form textarea::placeholder {
+  color: #888;
+}
+.annotate-popover-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+.annotate-btn {
+  padding: 5px 14px;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.1s;
+}
+.annotate-btn:hover { opacity: 0.85; }
+.annotate-btn-save {
+  background: #8CC63F;
+  color: #fff;
+}
+.annotate-btn-cancel {
+  background: transparent;
+  color: #999;
+}
+.annotate-btn-delete {
+  background: transparent;
+  color: #d0021b;
+  margin-right: auto;
+}
+
+/* View popover — appears when clicking a highlight */
+.annotate-view {
+  padding: 12px 14px;
+}
+.annotate-view-quote {
+  font-style: italic;
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  padding-left: 8px;
+  border-left: 2px solid #8CC63F;
+}
+.annotate-view-note {
+  color: #eee;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+}
+.annotate-view-meta {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+/* Floating toolbar */
+.annotate-toolbar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1999;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #2c2f31;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.8rem;
+  overflow: hidden;
+  user-select: none;
+}
+.annotate-toolbar-item {
+  padding: 10px 16px;
+  color: #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-right: 1px solid #444;
+  transition: background-color 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+.annotate-toolbar-item:last-child { border-right: none; }
+.annotate-toolbar-item:hover {
+  background: #3a3d40;
+  color: #fff;
+}
+.annotate-toolbar-count {
+  background: #8CC63F;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Author prompt modal */
+.annotate-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.annotate-modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 340px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  font-family: 'Roboto', Arial, sans-serif;
+}
+.annotate-modal h3 {
+  margin: 0 0 8px 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: #2c2f31;
+  font-size: 1.1rem;
+}
+.annotate-modal p {
+  margin: 0 0 16px 0;
+  font-size: 0.85rem;
+  color: #5a5e62;
+}
+.annotate-modal input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+.annotate-modal input:focus {
+  outline: none;
+  border-color: #8CC63F;
+}
+
+/* Sidebar */
+.annotate-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 340px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+  z-index: 2500;
+  font-family: 'Roboto', Arial, sans-serif;
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.annotate-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+}
+.annotate-sidebar.open {
+  transform: translateX(0);
+}
+.annotate-sidebar-header {
+  padding: 16px 20px;
+  background: #2c2f31;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Roboto Condensed', sans-serif;
+  position: sticky;
+  top: 0;
+}
+.annotate-sidebar-header h3 { margin: 0; font-size: 1rem; }
+.annotate-sidebar-close {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.annotate-sidebar-close:hover { color: #fff; }
+.annotate-sidebar-section {
+  padding: 12px 20px 4px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #8CC63F;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #eaeff2;
+}
+.annotate-sidebar-item {
+  padding: 12px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  transition: background-color 0.1s;
+}
+.annotate-sidebar-item:hover { background: #f8f9fa; }
+.annotate-sidebar-item-content {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.annotate-btn-delete-annotation {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color 0.1s, background-color 0.1s;
+}
+.annotate-btn-delete-annotation:hover {
+  color: #d0021b;
+  background: #fef3f2;
+}
+.annotate-sidebar-item-quote {
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.annotate-sidebar-item-note {
+  font-size: 0.85rem;
+  color: #2c2f31;
+  line-height: 1.4;
+}
+.annotate-sidebar-item-meta {
+  font-size: 0.7rem;
+  color: #aaa;
+  margin-top: 4px;
+}
+/* Sidebar footer with action buttons */
+.annotate-sidebar-footer {
+  position: sticky;
+  bottom: 0;
+  background: #2c2f31;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid #444;
+}
+.annotate-sidebar-action {
+  padding: 10px 8px;
+  background: none;
+  border: none;
+  border-right: 1px solid #3a3d40;
+  border-bottom: 1px solid #3a3d40;
+  color: #ccc;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+.annotate-sidebar-action:nth-child(3n) { border-right: none; }
+.annotate-sidebar-action:nth-last-child(-n+3) { border-bottom: none; }
+.annotate-sidebar-action:hover {
+  background: #3a3d40;
+  color: #fff;
+}
+
+.annotate-sidebar-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+/* Session list items */
+.annotate-session-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.annotate-session-item.active {
+  background: #f0fdf4;
+}
+.annotate-session-indicator {
+  color: #8CC63F;
+  font-size: 1rem;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+.annotate-session-info {
+  flex: 1;
+  min-width: 0;
+}
+.annotate-session-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #2c2f31;
+}
+.annotate-session-meta {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 2px;
+}
+.annotate-session-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.annotate-btn-restore {
+  background: #8CC63F;
+  color: #fff;
+  padding: 3px 10px;
+  font-size: 0.7rem;
+}
+.annotate-btn-export-session {
+  background: #eaeff2;
+  color: #5a5e62;
+  padding: 3px 10px;
+  font-size: 0.7rem;
+}
+.annotate-btn-delete-session {
+  background: transparent;
+  color: #d0021b;
+  padding: 3px 10px;
+  font-size: 0.7rem;
+}
+
+/* Important alert */
+.annotate-alert-info {
+  background: #fef3f2;
+  border-left: 4px solid #d0021b;
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #2c2f31;
+}
+.annotate-alert-info strong {
+  color: #d0021b;
+}
+
+/* Help modal */
+.annotate-help-modal {
+  max-width: 460px;
+}
+.annotate-help-modal p {
+  margin: 0 0 12px 0;
+  font-size: 0.85rem;
+  color: #5a5e62;
+  line-height: 1.5;
+}
+.annotate-help-modal ol {
+  margin: 0 0 12px 0;
+  padding-left: 1.25rem;
+  font-size: 0.85rem;
+  color: #5a5e62;
+  line-height: 1.6;
+}
+.annotate-help-modal strong {
+  color: #2c2f31;
+}
+
+/* Hidden file input for import */
+.annotate-file-input { display: none; }
+
+/* Print: hide toolbar and sidebar, keep highlights */
+@media print {
+  .annotate-toolbar,
+  .annotate-sidebar,
+  .annotate-popover,
+  .annotate-modal-overlay { display: none !important; }
+  .annotate-highlight {
+    background-color: rgba(255, 220, 80, 0.3) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
