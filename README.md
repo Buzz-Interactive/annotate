@@ -57,7 +57,7 @@ Existing annotation tools were built for human-to-human review: comments stay in
 ### CDN — single-tag bundle (easiest)
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Buzz-Interactive/annotate@1.0.0/annotate.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Buzz-Interactive/annotate@1.0.1/annotate.bundle.js"></script>
 ```
 
 `annotate.bundle.js` is the JS plus the CSS inlined; the stylesheet is injected automatically into `<head>` on script load. Best option when you want one tag and no styling overrides.
@@ -65,8 +65,8 @@ Existing annotation tools were built for human-to-human review: comments stay in
 ### CDN — split (lets you override styles)
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Buzz-Interactive/annotate@1.0.0/annotate.css">
-<script src="https://cdn.jsdelivr.net/gh/Buzz-Interactive/annotate@1.0.0/annotate.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Buzz-Interactive/annotate@1.0.1/annotate.css">
+<script src="https://cdn.jsdelivr.net/gh/Buzz-Interactive/annotate@1.0.1/annotate.js"></script>
 ```
 
 Pin to a tag for stability (`@1.0.0`), to a branch for latest (`@main`), or to a major (`@1`) for semver-tracked updates.
