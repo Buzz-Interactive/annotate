@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [1.0.1] - 2026-05-13
+
+### Added
+
+- **Explicit document-identity override.** A host page can now set `<body data-annotate-document-id="...">` to declare the scoping key for stored annotations. Falls through to the previous behaviour (`location.pathname` last segment) when the attribute is absent. Useful when multiple documents on the same origin could share a filename, or when document identity needs to survive a hostname / path change.
+
+### Notes
+
+- Backwards compatible. Pages without the new attribute continue to scope annotations by filename as in 1.0.0.
+- Annotations created under the filename-based key in 1.0.0 are not automatically migrated to a new attribute-based key. If you add `data-annotate-document-id` to an existing document, reviewers will see an empty annotations list under the new key (the old key's annotations remain stored, but unreachable from the new key). Export from the old key first if continuity matters.
+
+---
+
 ## [1.0.0] - 2026-05-13
 
 ### Added

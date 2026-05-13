@@ -1,6 +1,6 @@
 {
   "name": "annotate-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vanilla-JS annotation layer for static HTML, built for the AI-revision loop. Exports reviewer comments as structured JSON ready to hand to an agent.",
   "main": "annotate.js",
   "types": "src/annotate.ts",

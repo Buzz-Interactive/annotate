@@ -4,7 +4,7 @@
  * hand to your agent of choice, import the result back into the revised doc.
  *
  * @license MIT
- * @version 1.0.0
+ * @version 1.0.1
  * @see https://github.com/Buzz-Interactive/annotate
  */
 
@@ -79,7 +79,19 @@ type StoreName = keyof StoreMap;
   let activeSessionId: string | null = null;
   const staleMap: Record<string, AnchorStatus> = {};
 
-  const docPath = location.pathname.split('/').pop() || 'index.html';
+  // Document identity used as the scoping key for stored annotations.
+  // Precedence:
+  //   1. <body data-annotate-document-id="..."> — explicit override on the host page
+  //   2. Last segment of location.pathname — default
+  //   3. 'index.html' — fallback if pathname is empty
+  // The override is the recommended approach when multiple documents on the
+  // same origin could share a filename, or when document identity needs to
+  // survive a hostname / path change.
+  const docPath = (
+    (document.body && document.body.dataset && document.body.dataset.annotateDocumentId) ||
+    location.pathname.split('/').pop() ||
+    'index.html'
+  );
 
   // ---- IndexedDB ----
 
