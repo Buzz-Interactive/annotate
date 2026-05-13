@@ -7,12 +7,15 @@
   "files": [
     "annotate.js",
     "annotate.css",
+    "annotate.bundle.js",
     "src/annotate.ts",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/bundle.mjs",
+    "build:ts": "tsc",
+    "build:bundle": "node scripts/bundle.mjs",
     "typecheck": "tsc --noEmit",
     "watch": "tsc --watch",
     "demo": "python3 -m http.server 8000"
