@@ -88,6 +88,48 @@ That's it. No initialisation call needed. The script auto-bootstraps on `DOMCont
 
 ---
 
+## Document scoping
+
+Every annotation is stored against a **document key** so reviewers see only the comments that belong to the page in front of them. The key is also what `IndexedDB` filters on when the page boots.
+
+### Default behaviour
+
+By default the document key is the last segment of `location.pathname`. So `https://example.com/docs/spec.html` resolves to `spec.html`. Good enough when every document on your origin has a unique filename.
+
+### Explicit override (recommended for production)
+
+Set `data-annotate-document-id` on the `<body>` tag to declare the key yourself:
+
+```html
+<body data-annotate-document-id="acme/2026-05/architecture-blueprint">
+  <!-- document content -->
+  <script src="https://cdn.jsdelivr.net/gh/Buzz-Interactive/annotate@1.0.1/annotate.bundle.js"></script>
+</body>
+```
+
+Pick the override when any of the following apply:
+
+- **Same filename in different folders.** `/team-a/spec.html` and `/team-b/spec.html` would otherwise share the same key and cross-contaminate.
+- **Hostname or path migrations.** Move a doc from `staging.example.com/foo.html` to `docs.example.com/v2/foo.html` and the explicit ID keeps reviewer annotations attached to the document, not the URL.
+- **Multiple revisions of the same document.** Give each revision a distinct ID (`spec-v1`, `spec-v2`) if you want reviewers to keep separate annotation rounds per revision.
+
+### Precedence
+
+1. `<body data-annotate-document-id="...">` — explicit override.
+2. `location.pathname.split('/').pop()` — default.
+3. `'index.html'` — fallback when both are empty.
+
+### Migration note
+
+If you add `data-annotate-document-id` to a document that already had reviewer annotations under the default key, those annotations remain in the reviewer's `IndexedDB` but become unreachable from the new key. Two options:
+
+- **Before** adding the attribute, ask reviewers to **Export** the active session as JSON.
+- **After** adding the attribute, reviewers **Import** the exported JSON, which re-attaches the annotations to the new key.
+
+Pages that have only ever shipped with the attribute aren't affected.
+
+---
+
 ## Usage
 
 1. Open any HTML page that includes `annotate.js`.
